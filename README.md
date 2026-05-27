@@ -239,18 +239,7 @@ enterprise-demand-forecasting/
 
 ## 🚀 Getting Started
 
-### Installation
 
-```bash
-# 1. Clone the repository
-git clone https://github.com/[your-username]/enterprise-demand-forecasting.git
-
-# 2. Navigate to project directory
-cd enterprise-demand-forecasting
-
-# 3. Install all dependencies
-pip install -r requirements.txt
-```
 
 ### Requirements File
 
