@@ -21,7 +21,8 @@ The core of this project lies in extracting meaningful signals from noisy histor
 
 ## 📈 Model Performance & Visualization
 
-![Inventory Prediction Chart](prediction_chart.png)
+<img width="1079" height="772" alt="result" src="https://github.com/user-attachments/assets/df595981-4781-411e-baa9-39d8442cd5a8" />
+
 
 *The visualization above compares actual historical demand against model predictions. The high degree of alignment between the predicted trend and actual volatility serves as empirical evidence of the model's ability to capture complex patterns through a robust feature architecture.*
 
