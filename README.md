@@ -1,153 +1,34 @@
-# 📦 P01 — Demand Forecasting & Inventory Intelligence
+# 📦 Enterprise Inventory Demand Forecasting: Optimizing Supply Chain with Time-Series Analysis
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Marimo](https://img.shields.io/badge/Notebook-Marimo-orange)
-![DuckDB](https://img.shields.io/badge/SQL-DuckDB-green)
-![Status](https://img.shields.io/badge/Status-Complete-success)
+## 🎯 Executive Summary
+Inventory management is the backbone of logistics operations. **Overstocking** ties up capital in illiquid assets and inflates holding costs, while **understocking** leads to stockouts, lost revenue, and diminished customer satisfaction.
 
-## 🎯 Business Problem
+This project implements a high-precision predictive system leveraging **Machine Learning** and **Time-Series Analysis** to forecast inventory demand. The model is designed to help logistics firms optimize stock levels, prevent waste, and save millions in supply chain inefficiencies by shifting from a reactive to a proactive, data-driven strategy.
 
-Supply chain operations face a critical challenge: **demand uncertainty**.
-Overstock ties up capital and storage costs, while stockouts directly 
-translate to lost revenue and customer dissatisfaction.
+## 📊 Business Impact & ROI
+* **Cost Reduction:** Dramatically lowers holding costs by accurately predicting the quantity and timing of inventory requirements across distribution points.
+* **Risk & Waste Mitigation:** Minimizes the risk of over-accumulation, asset depreciation, or product expiration through rigorous probability-based demand modeling.
+* **Operational Excellence:** Optimizes utility and resource allocation by providing actionable insights into future market demand.
 
-> **Objective:** Build a data-driven demand forecasting system that 
-> reduces forecast error (MAPE) below 15% and provides actionable 
-> inventory recommendations per product category.
+## 🛠️ Technical Methodology
+The core of this project lies in extracting meaningful signals from noisy historical data through advanced **Feature Engineering** and hybrid statistical modeling:
 
----
+1.  **Data Preprocessing:** Cleaning historical transaction data, handling missing values, and normalizing supply chain shocks or anomalies.
+2.  **Advanced Feature Engineering:** * *Lag Features:* Capturing historical trend memory from previous periods.
+    * *Rolling Window Statistics:* Extracting market volatility and momentum (Moving Averages, Standard Deviations).
+    * *Temporal & Seasonal Features:* Mapping cyclical patterns (day-of-week effects, month-end spikes, quarterly cycles).
+3.  **Predictive Modeling:** A **hybrid approach** utilizing **SARIMA (Seasonal ARIMA)** to capture rigid linear and seasonal structures, integrated with an **XGBoost Regressor** to map complex non-linear relationships and minimize the global loss function.
 
-## 📊 Dataset
+## 📈 Model Performance & Visualization
 
-| Attribute | Detail |
-|-----------|--------|
-| **Source** | [DataCo Smart Supply Chain — Kaggle](https://www.kaggle.com/datasets/shashwatwork/dataco-smart-supply-chain) |
-| **Records** | 180,519 order transactions |
-| **Period** | 2015 – 2018 |
-| **Features** | 53 columns: orders, products, customers, shipping |
+![Inventory Prediction Chart](prediction_chart.png)
 
----
+*The visualization above compares actual historical demand against model predictions. The high degree of alignment between the predicted trend and actual volatility serves as empirical evidence of the model's ability to capture complex patterns through a robust feature architecture.*
 
-## 🔍 Analysis Framework
-
-```
-Raw Data (CSV)
-     │
-     ▼
-┌─────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│ SQL Layer   │───▶│ Feature Engineer │───▶│ ML Models       │
-│ DuckDB      │    │ Lag, Rolling,    │    │ • Linear Reg    │
-│ • Explore   │    │ Cyclical Encode  │    │ • Random Forest │
-│ • Aggregate │    │ Time-based feat  │    │ • Grad Boosting │
-│ • KPI Calc  │    └──────────────────┘    └────────┬────────┘
-└─────────────┘                                     │
-                                                    ▼
-                                         ┌─────────────────┐
-                                         │ Evaluation      │
-                                         │ Time Series CV  │
-                                         │ MAE/MAPE/R²     │
-                                         └────────┬────────┘
-                                                  │
-                                                  ▼
-                                         ┌─────────────────┐
-                                         │ Inventory KPIs  │
-                                         │ • ABC Analysis  │
-                                         │ • Safety Stock  │
-                                         │ • Reorder Point │
-                                         └─────────────────┘
-```
-
----
-
-## 📁 Repository Structure
-
-```
-P01-demand-forecasting/
-├── README.md
-├── sql/
-│   ├── 01_data_exploration.sql     # EDA queries
-│   ├── 02_sales_aggregation.sql    # Time-series aggregation
-│   └── 03_inventory_metrics.sql    # Inventory KPI queries
-├── notebooks/
-│   └── analysis.py                 # Full Marimo notebook
-├── data/
-│   └── .gitkeep
-└── scripts/
-    └── preprocessing.py
-```
-
----
-
-## 🔑 Key Findings
-
-### 1. Demand Forecasting
-| Model | MAPE | R² | Verdict |
-|-------|------|-----|---------|
-| Gradient Boosting | **~12%** | **~0.87** | ✅ Best |
-| Random Forest | ~15% | ~0.82 | Good |
-| Linear Regression | ~22% | ~0.71 | Baseline |
-
-> Gradient Boosting outperforms due to its ability to capture 
-> non-linear demand patterns and seasonal effects.
-
-### 2. ABC Product Classification
-- **Class A (Critical):** Top 20% of products → 80% of revenue
-- **Class B (Important):** Middle tier → 15% of revenue  
-- **Class C (Low Priority):** Long tail → 5% of revenue
-
-### 3. Inventory Risk Profile
-- **Stable Demand (CV < 0.2):** Standard reorder policy sufficient
-- **Volatile Demand (CV > 0.5):** Requires dynamic safety stock
-
----
-
-## 🛠️ Tech Stack
-
-```python
-{
-  "SQL"     : "DuckDB (in-memory analytics)",
-  "Notebook": "Marimo (reactive Python notebook)",
-  "ML"      : "scikit-learn — GradientBoostingRegressor",
-  "Stats"   : "statsmodels — seasonal decomposition, ADF test",
-  "Viz"     : "Plotly (interactive charts)"
-}
-```
-
----
-
-## 🚀 How to Run
-
-```bash
-# 1. Clone repository
-git clone https://github.com/[your-username]/supply-chain-portfolio.git
-cd supply-chain-portfolio/P01-demand-forecasting
-
-# 2. Install dependencies
-pip install marimo pandas numpy scikit-learn statsmodels plotly duckdb
-
-# 3. Download dataset (requires Kaggle API)
-kaggle datasets download -d shashwatwork/dataco-smart-supply-chain \
-  -p data/ --unzip
-
-# 4. Run Marimo notebook
-marimo run notebooks/analysis.py
-# OR open in edit mode:
-marimo edit notebooks/analysis.py
-```
-
----
-
-## 💡 Business Recommendations
-
-1. **Prioritize Class A products** for tighter inventory control
-   and more frequent replenishment cycles
-2. **Apply safety stock buffers** to Volatile-demand products
-   (CV > 0.5) with Z-score = 1.65 (95% service level)
-3. **Use Gradient Boosting model** for monthly demand planning
-   with MAPE ~12% — acceptable for operational planning
-4. **Monitor stockout risk flags** generated by SQL Query #3
-   for early warning signals
-
----
-
-*Portfolio Project by [Your Name] | Supply Chain Data Analytics*
+## 💻 Tech Stack
+* **Language:** Python 3.10+
+* **Data Manipulation:** Pandas, NumPy
+* **Statistical Modeling:** Statsmodels (SARIMA)
+* **Machine Learning:** Scikit-Learn, XGBoost
+* **Evaluation Metrics:** RMSE (Root Mean Squared Error), MAE (Mean Absolute Error)
+* **Data Visualization:** Matplotlib, Seaborn
